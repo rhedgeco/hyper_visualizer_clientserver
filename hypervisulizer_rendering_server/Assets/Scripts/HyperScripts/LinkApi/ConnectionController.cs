@@ -3,13 +3,12 @@ using UnityEngine.SceneManagement;
 
 namespace LinkApi
 {
-    public class HwndController : ApiController
+    public class ConnectionController : ApiController
     {
-        // GET api/hwnd
-        public int Get()
+        // GET api/connection
+        public void Post()
         {
             SceneManager.LoadScene("MainScene");
-            return ApiHandler.WindowHandle;
         }
     }
 }

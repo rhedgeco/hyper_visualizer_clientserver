@@ -63,3 +63,4 @@ class UnityWidget(QFrame):
 
         self.layout().removeWidget(self._start_text)
         self.layout().addWidget(window_container)
+        requests.post(f'http://localhost:{port}/api/connection')

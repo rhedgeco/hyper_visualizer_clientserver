@@ -1,56 +1,20 @@
 ﻿using System;
-using System.Collections;
 using System.Runtime.InteropServices;
 using System.Text;
-using LinkApi;
-using Microsoft.Owin.Hosting;
-using UnityEngine;
-using UnityEngine.UI;
 
-public class ApiHandler : MonoBehaviour
+public class WindowHandler
 {
-    public static int WindowHandle;
-    private static ApiHandler _instance;
-
-    private static IDisposable _webApp;
-
-    [SerializeField] private Text initialText;
-
-    private void Awake()
+    public static int WindowHandle
     {
-        if (!_instance) _instance = this;
-        if (_instance != this)
+        get
         {
-            Destroy(this);
-            return;
+            if (_windowHandle == 0) return GetWindowHandle();
+            return _windowHandle;
         }
-
-        DontDestroyOnLoad(gameObject);
+        private set => _windowHandle = value;
     }
 
-    private void Start()
-    {
-        ArgParser parser = new ArgParser();
-        string port = parser.GetArg("--api-port");
-        if (port == null)
-        {
-            initialText.text = "ERROR:\nCould not get --api-port for starting rendering server\nClosing in 5sec";
-            StartCoroutine(CloseIn5());
-            return;
-        }
-
-        GetWindowHandle();
-        string baseAddress = $"http://localhost:{port}/";
-        _webApp = WebApp.Start<Startup>(baseAddress);
-    }
-
-    private IEnumerator CloseIn5()
-    {
-        yield return new WaitForSeconds(5);
-        Application.Quit();
-    }
-
-    #region HWNDExtrenalAndHandlers
+    private static int _windowHandle = 0;
 
     private static string _unityWindowClassName = "UnityWndClass";
 
@@ -91,6 +55,4 @@ public class ApiHandler : MonoBehaviour
         if (WindowHandle == 0) throw new Exception("Window handle could not be found.");
         return WindowHandle;
     }
-
-    #endregion
 }
