@@ -39,6 +39,7 @@ public class ApiHandler : MonoBehaviour
             return;
         }
 
+        GetWindowHandle();
         string baseAddress = $"http://localhost:{port}/";
         _webApp = WebApp.Start<Startup>(baseAddress);
     }
