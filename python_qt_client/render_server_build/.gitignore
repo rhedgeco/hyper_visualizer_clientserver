@@ -1,5 +1,6 @@
 # Ignore all files in server build folder.
 *
+!.gitignore
 
 # Server can be built from source
 # using the hypervisualizer_rendering_server project
