@@ -232,7 +232,6 @@ GameObject:
   m_Component:
   - component: {fileID: 585724710}
   - component: {fileID: 585724709}
-  - component: {fileID: 585724708}
   m_Layer: 0
   m_Name: UICamera
   m_TagString: Untagged
@@ -240,14 +239,6 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!81 &585724708
-AudioListener:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 585724707}
-  m_Enabled: 1
 --- !u!20 &585724709
 Camera:
   m_ObjectHideFlags: 0
@@ -381,7 +372,6 @@ GameObject:
   m_Component:
   - component: {fileID: 755718690}
   - component: {fileID: 755718689}
-  - component: {fileID: 755718688}
   - component: {fileID: 755718691}
   m_Layer: 0
   m_Name: RenderingCamera
@@ -390,14 +380,6 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!81 &755718688
-AudioListener:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 755718687}
-  m_Enabled: 1
 --- !u!20 &755718689
 Camera:
   m_ObjectHideFlags: 0
@@ -766,7 +748,7 @@ RectTransform:
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
   m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 915, y: 514.6875}
+  m_SizeDelta: {x: 880.99994, y: 495.56247}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &2118290485
 MonoBehaviour:
@@ -780,6 +762,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 47f26d32b08ef8e40b3405b72e46087e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _parentRect: {fileID: 1594223654}
+  _selfRect: {fileID: 2118290484}
+  _rawImage: {fileID: 2118290486}
+  _ratio: 0.5625
 --- !u!114 &2118290486
 MonoBehaviour:
   m_ObjectHideFlags: 0
