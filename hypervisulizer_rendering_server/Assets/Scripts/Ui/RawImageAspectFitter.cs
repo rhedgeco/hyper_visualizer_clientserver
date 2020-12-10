@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 using UnityEngine.UI;
 
-namespace HyperScripts.UI
+namespace Ui
 {
     [RequireComponent(typeof(RectTransform))]
     [RequireComponent(typeof(RawImage))]
