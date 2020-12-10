@@ -9,8 +9,6 @@ from pathlib import Path
 from PySide2.QtGui import QWindow, Qt
 from PySide2.QtWidgets import QVBoxLayout, QLabel, QFrame
 
-from python_qt_client.widgets.aspect_ratio_widget import AspectRatioWidget
-
 
 def _get_free_local_port():
     """
@@ -64,5 +62,4 @@ class UnityWidget(QFrame):
             QWindow.fromWinId(int(hwnd)), self)
 
         self.layout().removeWidget(self._start_text)
-        self.layout().addWidget(
-            AspectRatioWidget(1920, 1080, window_container))
+        self.layout().addWidget(window_container)

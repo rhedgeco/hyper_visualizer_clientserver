@@ -1,5 +1,5 @@
 from PySide2 import QtCore
-from PySide2.QtWidgets import QWidget, QSplitter, QFrame, QVBoxLayout
+from PySide2.QtWidgets import QWidget, QSplitter, QVBoxLayout
 
 from python_qt_client.widgets.properties import Properties
 from python_qt_client.widgets.timeline import Timeline
@@ -22,10 +22,12 @@ class MainArea(QWidget):
         self.timeline = Timeline()
 
         hsplit.addWidget(self.unity_area)
+        hsplit.setCollapsible(0, False)
         hsplit.addWidget(self.prop_area)
         hsplit.setStretchFactor(0, 1)
         hsplit.setSizes([hsplit.width() - 400, 400])
         vsplit.addWidget(hsplit)
+        vsplit.setCollapsible(0, False)
         vsplit.addWidget(self.timeline)
         vsplit.setStretchFactor(0, 1)
         vsplit.setSizes([vsplit.height() - 150, 150])
