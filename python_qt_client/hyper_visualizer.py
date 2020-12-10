@@ -3,8 +3,8 @@ from pathlib import Path
 
 from PySide2.QtWidgets import QApplication, QWidget, QVBoxLayout, QStatusBar
 
-from widgets.main_area import MainArea
-from widgets.menu_bar import MenuBar
+from python_qt_client.widgets.main_area import MainArea
+from python_qt_client.widgets.menu_bar import MenuBar
 
 
 class MainWindow(QWidget):

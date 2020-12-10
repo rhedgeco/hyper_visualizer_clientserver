@@ -1,7 +1,7 @@
 from PySide2.QtCore import Qt
 from PySide2.QtWidgets import QVBoxLayout, QLabel, QFrame
 
-from widgets.import_audio import ImportAudio
+from python_qt_client.widgets.import_audio import ImportAudio
 
 
 class Timeline(QFrame):

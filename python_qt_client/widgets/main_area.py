@@ -1,9 +1,9 @@
 from PySide2 import QtCore
 from PySide2.QtWidgets import QWidget, QSplitter, QFrame, QVBoxLayout
 
-from widgets.properties import Properties
-from widgets.timeline import Timeline
-from widgets.unity_widget import UnityWidget
+from python_qt_client.widgets.properties import Properties
+from python_qt_client.widgets.timeline import Timeline
+from python_qt_client.widgets.unity_widget import UnityWidget
 
 
 class MainArea(QWidget):

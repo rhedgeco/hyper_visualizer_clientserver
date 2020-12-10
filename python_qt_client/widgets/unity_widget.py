@@ -9,7 +9,7 @@ from pathlib import Path
 from PySide2.QtGui import QWindow, Qt
 from PySide2.QtWidgets import QVBoxLayout, QLabel, QFrame
 
-from widgets.aspect_ratio_widget import AspectRatioWidget
+from python_qt_client.widgets.aspect_ratio_widget import AspectRatioWidget
 
 
 def _get_free_local_port():
