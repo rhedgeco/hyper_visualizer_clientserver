@@ -1,0 +1,4 @@
+# Ignore all paid assets, must be redownloaded with personal liscence
+
+*
+!.gitignore
