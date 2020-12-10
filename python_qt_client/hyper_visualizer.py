@@ -37,6 +37,6 @@ if __name__ == '__main__':
     widget.setStyleSheet(open('style.qss').read())
     widget.show()
     widget.main_area.unity_area.create_unity_link(
-        Path('./unity') / 'UnityHWNDTester.exe')
+        Path('./render_server_build') / 'UnityHWNDTester.exe')
 
     sys.exit(app.exec_())
