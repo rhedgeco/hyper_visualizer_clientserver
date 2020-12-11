@@ -1,4 +1,5 @@
 ﻿using System.Web.Http;
+using System.Web.Http.Routing;
 using Owin;
 using UnityEngine;
 
@@ -9,12 +10,7 @@ namespace LinkApi
         public void Configuration(IAppBuilder appBuilder)
         {
             HttpConfiguration config = new HttpConfiguration();
-            config.Routes.MapHttpRoute(
-                "DefaultWebApi",
-                "api/{controller}/{id}",
-                new {id = RouteParameter.Optional}
-            );
-
+            config.MapHttpAttributeRoutes();
             appBuilder.UseWebApi(config);
         }
     }

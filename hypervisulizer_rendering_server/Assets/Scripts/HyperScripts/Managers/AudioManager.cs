@@ -1,10 +1,12 @@
 ﻿using UnityEngine;
 
-namespace HyperScripts
+namespace HyperScripts.Managers
 {
     public class AudioManager : MonoBehaviour
     {
         private static AudioManager _instance;
+
+        public static bool Playing { get; private set; } = false;
 
         private void Awake()
         {
@@ -16,6 +18,12 @@ namespace HyperScripts
             }
             
             DontDestroyOnLoad(_instance);
+        }
+
+        public static bool TogglePlayPause()
+        {
+            Playing = !Playing;
+            return Playing;
         }
     }
 }

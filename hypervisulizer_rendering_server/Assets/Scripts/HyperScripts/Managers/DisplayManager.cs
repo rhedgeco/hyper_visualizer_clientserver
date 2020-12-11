@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 
-namespace HyperScripts
+namespace HyperScripts.Managers
 {
     public class DisplayManager : MonoBehaviour
     {

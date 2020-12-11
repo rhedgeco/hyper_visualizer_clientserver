@@ -2,7 +2,7 @@
 using UnityEngine;
 using UnityEngine.UI;
 
-namespace HyperScripts
+namespace HyperScripts.Managers
 {
     public class RenderingManager : MonoBehaviour
     {

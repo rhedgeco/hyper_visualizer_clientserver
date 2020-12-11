@@ -21,3 +21,8 @@ class HyperController:
     @staticmethod
     def post_connection():
         requests.post(f'{HyperController.base_address()}api/connection')
+
+    @staticmethod
+    def toggle_play_pause():
+        return requests.post(
+            f'{HyperController.base_address()}audio/play_pause').text

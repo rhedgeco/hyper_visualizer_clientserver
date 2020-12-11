@@ -1,5 +1,6 @@
 ﻿using System;
 using HyperScripts;
+using HyperScripts.Managers;
 using UnityEngine;
 
 namespace DefaultVisualizer.data
