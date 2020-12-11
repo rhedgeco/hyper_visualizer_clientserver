@@ -46,6 +46,7 @@ class UnityWidget(QFrame):
             str(port)
         ])
         print(f'Unity Window PID: {mp.pid}')
+        print(f'Api Server on port: {port}')
 
         hwnd = None
         attempts = 0

@@ -1,5 +1,5 @@
 ﻿using System.Web.Http;
-using UnityEngine.SceneManagement;
+using UnityEngine;
 
 namespace LinkApi
 {
@@ -8,7 +8,7 @@ namespace LinkApi
         // GET api/hwnd
         public int Get()
         {
-            return WindowHandler.WindowHandle;
+            return ApiHandler.WindowHandle;
         }
     }
 }
