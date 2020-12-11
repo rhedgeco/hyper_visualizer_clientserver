@@ -15,4 +15,4 @@ class PlayButton(QPushButton):
         self.clicked.connect(self.play_pause)
 
     def play_pause(self):
-        print(HyperController.toggle_play_pause())
+        HyperController.toggle_play_pause()

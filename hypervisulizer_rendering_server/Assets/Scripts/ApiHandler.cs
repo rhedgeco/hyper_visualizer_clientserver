@@ -23,7 +23,7 @@ public class ApiHandler : MonoBehaviour
             Destroy(this);
             return;
         }
-        
+
         DontDestroyOnLoad(gameObject);
     }
 
@@ -31,12 +31,7 @@ public class ApiHandler : MonoBehaviour
     {
         ArgParser parser = new ArgParser();
         string port = parser.GetArg("--api-port");
-        if (port == null)
-        {
-            initialText.text = "ERROR:\nCould not get --api-port for starting rendering server\nClosing in 5sec";
-            StartCoroutine(CloseIn5());
-            return;
-        }
+        if (port == null) port = "9000";
 
         CacheWindowHandle();
         string baseAddress = $"http://localhost:{port}/";
@@ -84,7 +79,6 @@ public class ApiHandler : MonoBehaviour
         {
             var classText = new StringBuilder(_unityWindowClassName.Length + 1);
             GetClassName(hWnd, classText, classText.Capacity);
-            Debug.Log(classText);
             if (classText.ToString().Equals(_unityWindowClassName))
             {
                 WindowHandle = (int) hWnd;

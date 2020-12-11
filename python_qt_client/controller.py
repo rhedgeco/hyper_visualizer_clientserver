@@ -24,5 +24,4 @@ class HyperController:
 
     @staticmethod
     def toggle_play_pause():
-        return requests.post(
-            f'{HyperController.base_address()}audio/play_pause').text
+        requests.post(f'{HyperController.base_address()}audio/play_pause')

@@ -16,14 +16,13 @@ namespace HyperScripts.Managers
                 Destroy(_instance);
                 return;
             }
-            
+
             DontDestroyOnLoad(_instance);
         }
 
-        public static bool TogglePlayPause()
+        public static void TogglePlayPause()
         {
-            Playing = !Playing;
-            return Playing;
+            RenderingManager.RenderFrame();
         }
     }
 }

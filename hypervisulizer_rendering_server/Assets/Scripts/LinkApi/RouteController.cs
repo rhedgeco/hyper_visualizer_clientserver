@@ -15,16 +15,18 @@ namespace LinkApi
 
         [Route("api/connection")]
         [HttpPost]
-        public void ConnectClient()
+        public bool ConnectClient()
         {
             SceneManager.LoadScene("MainScene");
+            return true;
         }
 
         [Route("audio/play_pause")]
         [HttpPost]
         public bool TogglePlayPause()
         {
-            return AudioManager.TogglePlayPause();
+            ApiThreadCollector.QueueFunction(AudioManager.TogglePlayPause);
+            return false;
         }
     }
 }
