@@ -9,6 +9,8 @@ from pathlib import Path
 from PySide2.QtGui import QWindow, Qt
 from PySide2.QtWidgets import QVBoxLayout, QLabel, QFrame
 
+from python_qt_client.controller import HyperController
+
 
 def _get_free_local_port():
     """
@@ -39,20 +41,20 @@ class UnityWidget(QFrame):
         self.layout().addWidget(self._start_text)
 
     def create_unity_link(self, unity_app: Path):
-        port = _get_free_local_port()
+        HyperController.api_port = _get_free_local_port()
         mp = subprocess.Popen([
             str(unity_app.absolute()),
             '--api-port',
-            str(port)
+            str(HyperController.api_port)
         ])
         print(f'Unity Window PID: {mp.pid}')
-        print(f'Api Server on port: {port}')
+        print(f'Api Server on port: {HyperController.api_port}')
 
         hwnd = None
         attempts = 0
         while hwnd is None:
             try:
-                hwnd = requests.get(f'http://localhost:{port}/api/hwnd').text
+                hwnd = HyperController.get_unity_hwnd()
             except requests.exceptions.ConnectionError:
                 print(f'Server not yet started: '
                       f'retrying connection ({attempts})')
@@ -64,4 +66,4 @@ class UnityWidget(QFrame):
 
         self.layout().removeWidget(self._start_text)
         self.layout().addWidget(window_container)
-        requests.post(f'http://localhost:{port}/api/connection')
+        HyperController.post_connection()
