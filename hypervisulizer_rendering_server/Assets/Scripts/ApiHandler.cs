@@ -5,13 +5,15 @@ using System.Text;
 using LinkApi;
 using Microsoft.Owin.Hosting;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
 public class ApiHandler : MonoBehaviour
 {
     private static ApiHandler _instance;
 
-    private static IDisposable _webApp;
+    public static IDisposable _webApp;
+    private static bool _mainSceneReload;
 
     [SerializeField] private Text initialText;
 
@@ -38,20 +40,26 @@ public class ApiHandler : MonoBehaviour
         _webApp = WebApp.Start<Startup>(baseAddress);
     }
 
-    private IEnumerator CloseIn5()
+    private void Update()
     {
-        yield return new WaitForSeconds(5);
-        Application.Quit();
-    }
-
-    private void OnDisable()
-    {
-        _webApp?.Dispose();
+        if (_mainSceneReload)
+        {
+            _mainSceneReload = false;
+            SceneManager.LoadScene("MainScene");
+        }
     }
 
     private void OnApplicationQuit()
     {
         _webApp?.Dispose();
+    }
+
+    public static class ThreadSafe
+    {
+        public static void ReloadMainScene()
+        {
+            _mainSceneReload = true;
+        }
     }
 
     #region HwndHandler

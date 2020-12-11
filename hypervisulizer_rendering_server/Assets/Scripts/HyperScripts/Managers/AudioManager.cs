@@ -6,7 +6,8 @@ namespace HyperScripts.Managers
     {
         private static AudioManager _instance;
 
-        public static bool Playing { get; private set; } = false;
+        private static bool Playing { get; set; } = false;
+        private static string Import { get; set; } = "";
 
         private void Awake()
         {
@@ -20,9 +21,29 @@ namespace HyperScripts.Managers
             DontDestroyOnLoad(_instance);
         }
 
-        public static void TogglePlayPause()
+        private void Update()
         {
-            RenderingManager.RenderFrame();
+            if(Playing) RenderingManager.RenderFrame();
+        }
+
+        public static class ThreadSafe
+        {
+            public static string ImportAudio(string filename)
+            {
+                Import = filename;
+                return filename;
+            }
+            
+            public static bool TogglePlayPause()
+            {
+                Playing = !Playing;
+                return Playing;
+            }
+
+            public static void Stop()
+            {
+                Playing = false;
+            }
         }
     }
 }

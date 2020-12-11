@@ -1,6 +1,5 @@
 ﻿using System.Web.Http;
 using HyperScripts.Managers;
-using UnityEngine.SceneManagement;
 
 namespace LinkApi
 {
@@ -15,18 +14,30 @@ namespace LinkApi
 
         [Route("api/connection")]
         [HttpPost]
-        public bool ConnectClient()
+        public void ConnectClient()
         {
-            SceneManager.LoadScene("MainScene");
-            return true;
+            ApiHandler.ThreadSafe.ReloadMainScene();
         }
 
         [Route("audio/play_pause")]
         [HttpPost]
         public bool TogglePlayPause()
         {
-            ApiThreadCollector.QueueFunction(AudioManager.TogglePlayPause);
-            return false;
+            return AudioManager.ThreadSafe.TogglePlayPause();
+        }
+        
+        [Route("audio/stop")]
+        [HttpPost]
+        public void Stop()
+        {
+            AudioManager.ThreadSafe.Stop();
+        }
+
+        [Route("audio/import")]
+        [HttpPost]
+        public string ImportAudio([FromUri] string filename)
+        {
+            return AudioManager.ThreadSafe.ImportAudio(filename);
         }
     }
 }

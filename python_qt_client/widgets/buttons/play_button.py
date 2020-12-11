@@ -9,10 +9,17 @@ class PlayButton(QPushButton):
     def __init__(self):
         super().__init__()
 
-        self.setFixedWidth(24)
-        self.setIcon(QIcon('images/play_icon.png'))
-        self.setIconSize(QSize(12, 12))
-        self.clicked.connect(self.play_pause)
+        self._play_icon = QIcon('images/play_icon.png')
+        self._pause_icon = QIcon('images/pause_icon.png')
 
-    def play_pause(self):
-        HyperController.toggle_play_pause()
+        self.setIcon(self._play_icon)
+        self.clicked.connect(HyperController.toggle_play_pause)
+        HyperController.onplay.append(self._set_pause)
+        HyperController.onpause.append(self._set_play)
+        HyperController.onstop.append(self._set_play)
+
+    def _set_play(self):
+        self.setIcon(self._play_icon)
+
+    def _set_pause(self):
+        self.setIcon(self._pause_icon)

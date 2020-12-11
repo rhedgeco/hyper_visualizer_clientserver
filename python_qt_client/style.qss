@@ -46,6 +46,7 @@ QPushButton {
     border-color: #191919;
     border-radius: 2px;
     padding: 4px;
+    height: 14px;
 }
 
 QPushButton:hover {
@@ -57,7 +58,15 @@ QPushButton:pressed {
 }
 
 PlayButton {
+    qproperty-iconSize: 12px;
     padding: 4px;
+    max-width: 14px;
+}
+
+StopButton {
+    qproperty-iconSize: 12px;
+    padding: 4px;
+    max-width: 14px;
 }
 
 UnityWidget {

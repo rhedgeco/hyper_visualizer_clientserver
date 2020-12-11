@@ -2,7 +2,9 @@ from PySide2.QtCore import Qt, QSize
 from PySide2.QtGui import QIcon
 from PySide2.QtWidgets import QHBoxLayout, QFrame, QPushButton, QLabel
 
+from python_qt_client.widgets.buttons.audio_import import AudioImport
 from python_qt_client.widgets.buttons.play_button import PlayButton
+from python_qt_client.widgets.buttons.stop_button import StopButton
 
 
 class AudioControls(QFrame):
@@ -16,9 +18,8 @@ class AudioControls(QFrame):
         self.play_pause = PlayButton()
         self.layout().addWidget(self.play_pause)
 
-        self.import_button = QPushButton('Import Audio')
-        self.import_button.setFixedWidth(100)
-        self.layout().addWidget(self.import_button)
+        self.stop_button = StopButton(self.play_pause)
+        self.layout().addWidget(self.stop_button)
 
-        self.import_label = QLabel('No audio imported.')
-        self.layout().addWidget(self.import_label)
+        self.import_button = AudioImport()
+        self.layout().addWidget(self.import_button)
