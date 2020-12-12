@@ -1,8 +1,7 @@
-from PySide2.QtCore import Qt, QSize
-from PySide2.QtGui import QIcon
-from PySide2.QtWidgets import QHBoxLayout, QFrame, QPushButton, QLabel
+from PySide2.QtCore import Qt
+from PySide2.QtWidgets import QHBoxLayout, QFrame
 
-from python_qt_client.widgets.buttons.audio_import import AudioImport
+from python_qt_client.widgets.audio_import import AudioImport
 from python_qt_client.widgets.buttons.play_button import PlayButton
 from python_qt_client.widgets.buttons.stop_button import StopButton
 

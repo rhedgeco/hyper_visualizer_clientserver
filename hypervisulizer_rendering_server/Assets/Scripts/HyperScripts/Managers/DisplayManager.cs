@@ -11,7 +11,7 @@ namespace HyperScripts.Managers
             if (_instance == null) _instance = this;
             if (_instance != this)
             {
-                Destroy(_instance);
+                Destroy(gameObject);
                 return;
             }
             

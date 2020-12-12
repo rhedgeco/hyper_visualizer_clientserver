@@ -2,6 +2,8 @@
 using System.Collections;
 using System.Runtime.InteropServices;
 using System.Text;
+using Fleck;
+using HyperScripts.Threading;
 using LinkApi;
 using Microsoft.Owin.Hosting;
 using UnityEngine;
@@ -12,7 +14,8 @@ public class ApiHandler : MonoBehaviour
 {
     private static ApiHandler _instance;
 
-    public static IDisposable _webApp;
+    private static IDisposable _webApp;
+    private static WebsocketHandler _wsApp;
     private static bool _mainSceneReload;
 
     [SerializeField] private Text initialText;
@@ -22,7 +25,7 @@ public class ApiHandler : MonoBehaviour
         if (!_instance) _instance = this;
         if (_instance != this)
         {
-            Destroy(this);
+            Destroy(gameObject);
             return;
         }
 
@@ -32,12 +35,17 @@ public class ApiHandler : MonoBehaviour
     private void Start()
     {
         ArgParser parser = new ArgParser();
-        string port = parser.GetArg("--api-port");
-        if (port == null) port = "9000";
+        string apiPort = parser.GetArg("--api-port");
+        string wsPort = parser.GetArg("--ws-port");
+        if (apiPort == null) apiPort = "9000";
+        if (wsPort == null) wsPort = "9001";
 
         CacheWindowHandle();
-        string baseAddress = $"http://localhost:{port}/";
-        _webApp = WebApp.Start<Startup>(baseAddress);
+        string apiBaseAddress = $"http://localhost:{apiPort}/";
+        string wsBaseAddress = $"http://0.0.0.0:{wsPort}/";
+
+        _webApp = WebApp.Start<Startup>(apiBaseAddress);
+        _wsApp = new WebsocketHandler(wsBaseAddress);
     }
 
     private void Update()
@@ -52,6 +60,12 @@ public class ApiHandler : MonoBehaviour
     private void OnApplicationQuit()
     {
         _webApp?.Dispose();
+        _wsApp?.Dispose();
+    }
+
+    public static void SendWebsocketMessage(string message)
+    {
+        _wsApp.SendMessage(message);
     }
 
     public static class ThreadSafe

@@ -12,7 +12,7 @@ from PySide2.QtWidgets import QVBoxLayout, QLabel, QFrame
 from python_qt_client.controller import HyperController
 
 
-def _get_free_local_port():
+def get_free_local_port():
     """
     Finds an open port on the local machine
 
@@ -40,12 +40,18 @@ class UnityWidget(QFrame):
         self._start_text.setAlignment(Qt.AlignCenter)
         self.layout().addWidget(self._start_text)
 
+    def attach_to_unity_port_debug(self):
+        HyperController.connect_to_socket()
+        self._start_text.setText(
+            'Connected to external unity server for debugging...')
+
     def create_unity_link(self, unity_app: Path):
-        HyperController.api_port = _get_free_local_port()
         mp = subprocess.Popen([
             str(unity_app.absolute()),
             '--api-port',
-            str(HyperController.api_port)
+            str(HyperController.api_port),
+            '--ws-port',
+            str(HyperController.ws_port)
         ])
         print(f'Unity Window PID: {mp.pid}')
         print(f'Api Server on port: {HyperController.api_port}')
@@ -66,4 +72,4 @@ class UnityWidget(QFrame):
 
         self.layout().removeWidget(self._start_text)
         self.layout().addWidget(window_container)
-        HyperController.post_connection()
+        HyperController.connect_to_socket()

@@ -69,6 +69,11 @@ StopButton {
     max-width: 14px;
 }
 
+ImportAudioButton {
+    padding: 4px;
+    max-width: 80px;
+}
+
 UnityWidget {
     background: #212121;
     border-width: 0 1px 1px 0;

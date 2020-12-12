@@ -1,4 +1,7 @@
-﻿using UnityEngine;
+﻿using System.IO;
+using HyperScripts.Threading;
+using HyperScripts.Threading.Workers;
+using UnityEngine;
 
 namespace HyperScripts.Managers
 {
@@ -6,28 +9,48 @@ namespace HyperScripts.Managers
     {
         private static AudioManager _instance;
 
-        private static bool Playing { get; set; } = false;
-        private static string Import { get; set; } = "";
+        private static AudioSource _source;
+        private static float[] _samples;
 
         private void Awake()
         {
             if (_instance == null) _instance = this;
             if (_instance != this)
             {
-                Destroy(_instance);
+                Destroy(gameObject);
                 return;
             }
 
             DontDestroyOnLoad(_instance);
+            _source = GetComponent<AudioSource>();
         }
 
         private void Update()
         {
-            if(Playing) RenderingManager.RenderFrame();
+            ThreadSafe.MainThreadCallback();
+        }
+
+        internal static void ImportAudioThreaded(string path)
+        {
+            AudioDecodeWorker worker = new AudioDecodeWorker(path,
+                Path.Combine(Application.persistentDataPath, "TempConversion"),
+                (sampleArray, channels, sampleRate) =>
+                {
+                    AudioClip clip = AudioClip.Create(Path.GetFileNameWithoutExtension(path),
+                        sampleArray.Length / channels, channels, sampleRate, false);
+                    clip.SetData(sampleArray, 0);
+                    _source.clip = clip;
+                    _samples = sampleArray;
+                });
+            HyperThreadDispatcher.StartWorker(worker);
         }
 
         public static class ThreadSafe
         {
+            private static bool Playing { get; set; } = false;
+            private static bool StopPlaying { get; set; } = false;
+            private static string Import { get; set; } = "";
+            
             public static string ImportAudio(string filename)
             {
                 Import = filename;
@@ -42,7 +65,37 @@ namespace HyperScripts.Managers
 
             public static void Stop()
             {
-                Playing = false;
+                StopPlaying = true;
+            }
+
+            public static void MainThreadCallback()
+            {
+                if (Playing && !_source.isPlaying)
+                {
+                    _source.Play();
+                    ApiHandler.SendWebsocketMessage("play");
+                }
+
+                if (!Playing && _source.isPlaying)
+                {
+                    _source.Pause();
+                    ApiHandler.SendWebsocketMessage("pause");
+                }
+                
+                if (StopPlaying)
+                {
+                    Playing = false;
+                    StopPlaying = false;
+                    _source.Stop();
+                    _source.timeSamples = 0;
+                    ApiHandler.SendWebsocketMessage("stop");
+                }
+                
+                if (Import != "")
+                {
+                    ImportAudioThreaded(Import);
+                    Import = "";
+                }
             }
         }
     }
