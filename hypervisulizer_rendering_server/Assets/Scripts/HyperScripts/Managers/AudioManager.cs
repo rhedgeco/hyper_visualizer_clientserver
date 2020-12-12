@@ -47,55 +47,66 @@ namespace HyperScripts.Managers
 
         public static class ThreadSafe
         {
-            private static bool Playing { get; set; } = false;
-            private static bool StopPlaying { get; set; } = false;
+            private static bool State { get; set; } = false;
+            private static bool Play { get; set; } = false;
+            private static bool Pause { get; set; } = false;
+            private static bool Stop { get; set; } = false;
             private static string Import { get; set; } = "";
             
-            public static string ImportAudio(string filename)
+            public static void ImportAudio(string filename)
             {
                 Import = filename;
-                return filename;
             }
             
-            public static bool TogglePlayPause()
+            public static void TogglePlayPause()
             {
-                Playing = !Playing;
-                return Playing;
+                if (State) Pause = true;
+                else Play = true;
             }
 
-            public static void Stop()
+            public static void StopAudio()
             {
-                StopPlaying = true;
+                Stop = true;
             }
 
+            private static bool _lastAudioState = false;
             public static void MainThreadCallback()
             {
-                if (Playing && !_source.isPlaying)
+                if (Play && !_source.isPlaying)
                 {
                     _source.Play();
-                    ApiHandler.SendWebsocketMessage("play");
+                    Play = false;
+                    ApiHandler.SendWebsocketMessage("_play");
+                    _lastAudioState = _source.isPlaying;
                 }
 
-                if (!Playing && _source.isPlaying)
+                if (Pause && _source.isPlaying)
                 {
                     _source.Pause();
-                    ApiHandler.SendWebsocketMessage("pause");
+                    Pause = false;
+                    ApiHandler.SendWebsocketMessage("_pause");
+                    _lastAudioState = _source.isPlaying;
                 }
                 
-                if (StopPlaying)
+                if (Stop)
                 {
-                    Playing = false;
-                    StopPlaying = false;
                     _source.Stop();
                     _source.timeSamples = 0;
-                    ApiHandler.SendWebsocketMessage("stop");
+                    Stop = false;
+                    ApiHandler.SendWebsocketMessage("_stop");
+                    _lastAudioState = _source.isPlaying;
                 }
                 
                 if (Import != "")
                 {
                     ImportAudioThreaded(Import);
+                    ApiHandler.SendWebsocketMessage($"_import_audio?{Import}");
                     Import = "";
                 }
+                
+                if (!_source.isPlaying && _lastAudioState) ApiHandler.SendWebsocketMessage("_stop");
+                _lastAudioState = _source.isPlaying;
+                State = _lastAudioState;
             }
         }
     }

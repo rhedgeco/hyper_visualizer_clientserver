@@ -20,7 +20,7 @@ class AudioImport(QWidget):
         self.label = QLabel('No Audio Imported.')
         self.layout().addWidget(self.label)
 
-        HyperController.onfileimport.append(self._on_audio_imported)
+        HyperController.sub.onimport.connect(self._on_audio_imported)
 
     def _on_audio_imported(self, filename: str):
         file = Path(filename).name.replace('"', '')

@@ -1,4 +1,3 @@
-from PySide2.QtCore import QSize
 from PySide2.QtGui import QIcon
 from PySide2.QtWidgets import QPushButton
 
@@ -14,9 +13,9 @@ class PlayButton(QPushButton):
 
         self.setIcon(self._play_icon)
         self.clicked.connect(HyperController.toggle_play_pause)
-        HyperController.onplay.append(self._set_pause)
-        HyperController.onpause.append(self._set_play)
-        HyperController.onstop.append(self._set_play)
+        HyperController.sub.onplay.connect(self._set_pause)
+        HyperController.sub.onpause.connect(self._set_play)
+        HyperController.sub.onstop.connect(self._set_play)
 
     def _set_play(self):
         self.setIcon(self._play_icon)

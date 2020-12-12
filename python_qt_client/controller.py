@@ -1,38 +1,22 @@
 import threading
 from websocket import create_connection
-from typing import List, Callable, Any
 
 import requests
-from PySide2.QtWebSockets import QWebSocket
+
+from python_qt_client.websocket_callbacks import HyperCallbacks
 
 
 class HyperController:
     api_port: str = None
     ws_port: str = None
-    onplay: List[Callable] = []
-    onpause: List[Callable] = []
-    onstop: List[Callable] = []
-    onfileimport: List[Callable[[str], Any]] = []
-
-    _socket: QWebSocket = None
+    sub = HyperCallbacks()
 
     @staticmethod
     def connect_to_socket():
         def recv(message: str):
-            if message == 'connected':
-                HyperController.post_connection()
-            elif message == 'play':
-                for call in HyperController.onplay:
-                    call()
-            elif message == 'pause':
-                for call in HyperController.onpause:
-                    call()
-            elif message == 'stop':
-                for call in HyperController.onstop:
-                    call()
+            HyperController.sub.process_callback(message)
 
         def runner():
-            print('starting socket thread')
             ws = create_connection(f'ws://localhost:{HyperController.ws_port}')
             while True:
                 recv(ws.recv())
@@ -41,14 +25,14 @@ class HyperController:
         thread.start()
 
     @staticmethod
-    def base_address():
-        HyperController.ensure_port_open()
-        return f'http://localhost:{HyperController.api_port}/'
-
-    @staticmethod
     def ensure_port_open():
         if HyperController.api_port is None:
             raise Exception('Api port is not initialized')
+
+    @staticmethod
+    def base_address():
+        HyperController.ensure_port_open()
+        return f'http://localhost:{HyperController.api_port}/'
 
     @staticmethod
     def get_unity_hwnd() -> str:

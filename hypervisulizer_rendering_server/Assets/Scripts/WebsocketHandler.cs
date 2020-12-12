@@ -5,7 +5,7 @@ public class WebsocketHandler : IDisposable
 {
     private readonly WebSocketServer server;
     private IWebSocketConnection client;
-    
+
     public WebsocketHandler(string location)
     {
         server = new WebSocketServer(location);
@@ -13,13 +13,9 @@ public class WebsocketHandler : IDisposable
         {
             socket.OnOpen = () =>
             {
-                if (client == null)
-                {
-                    client = socket;
-                    socket.Send("connected");
-                    return;
-                }
-                socket.Close();
+                if (client != null) socket.Close();
+                client = socket;
+                client.Send("_connected");
             };
         });
     }

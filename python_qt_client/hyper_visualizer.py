@@ -29,6 +29,10 @@ class MainWindow(QWidget):
         layout.addWidget(self.status)
 
         self.setLayout(layout)
+        HyperController.sub.onconnected.connect(self.connected)
+
+    def connected(self):
+        HyperController.post_connection()
 
 
 def parse_args() -> argparse.Namespace:

@@ -21,23 +21,23 @@ namespace LinkApi
 
         [Route("audio/play_pause")]
         [HttpPost]
-        public bool TogglePlayPause()
+        public void TogglePlayPause()
         {
-            return AudioManager.ThreadSafe.TogglePlayPause();
+            AudioManager.ThreadSafe.TogglePlayPause();
         }
         
         [Route("audio/stop")]
         [HttpPost]
         public void Stop()
         {
-            AudioManager.ThreadSafe.Stop();
+            AudioManager.ThreadSafe.StopAudio();
         }
 
         [Route("audio/import")]
         [HttpPost]
-        public string ImportAudio([FromUri] string filename)
+        public void ImportAudio([FromUri] string filename)
         {
-            return AudioManager.ThreadSafe.ImportAudio(filename);
+            AudioManager.ThreadSafe.ImportAudio(filename);
         }
     }
 }
